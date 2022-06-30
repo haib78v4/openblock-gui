@@ -74,7 +74,7 @@ const deviceData = [
         tags: ['realtime']
     },
     {
-        name: 'Arduino Uno',
+        name: 'Arduino Uno111',
         deviceId: 'arduinoUno',
         manufactor: 'arduino.cc',
         learnMore: 'https://store.arduino.cc/usa/arduino-uno-rev3',
@@ -259,17 +259,17 @@ const deviceData = [
         helpLink: 'https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/hw-reference/esp32/get-started-devkitc.html'
     },
     {
-        name: 'ESP8266',
-        deviceId: 'arduinoEsp8266',
+        name: 'NodeMCU ',
+        deviceId: 'arduinoEsp8266NodeMCU',
         manufactor: 'espressif',
-        learnMore: 'https://www.espressif.com/',
+        learnMore: 'https://www.nodemcu.com',
         type: DeviceType.arduino,
         iconURL: esp8266IconURL,
         description: (
             <FormattedMessage
                 defaultMessage="Low-cost Wi-Fi SOC control board."
-                description="Description for the esp8266 device"
-                id="gui.device.esp8266.description"
+                description="Description for the esp8266 NodeMCU device"
+                id="gui.device.esp8266NodeMCU.description"
             />
         ),
         featured: true,
@@ -286,7 +286,7 @@ const deviceData = [
             <FormattedMessage
                 defaultMessage="Connecting"
                 description="Message to help people connect to their device."
-                id="gui.device.esp8266.connectingMessage"
+                id="gui.device.esp8266NodeMCU.connectingMessage"
             />
         ),
         baseToolBoxXml: arduinoBaseToolBox,
@@ -416,6 +416,22 @@ const deviceData = [
         disabled: false,
         hide: true,
         baseToolBoxXml: arduinoBaseToolBox
+    },
+    {
+        deviceId: 'arduinoSE',
+        type: DeviceType.arduino,
+        featured: true,
+        disabled: false,
+        hide: true,
+        baseToolBoxXml: arduinoBaseToolBox
+    },
+    {
+        deviceId: 'arduinoEsp8266',
+        type: DeviceType.arduino,
+        featured: true,
+        disabled: false,
+        hide: true,
+        baseToolBoxXml: arduinoBaseToolBox
     }
 ];
 
@@ -446,6 +462,13 @@ const makeDeviceLibrary = (deviceList = null) => {
 
     if (deviceList) {
         deviceList.forEach(dev => {
+            // Because the micropython framework is not included in the community version,
+            // for a control board that supports multiple programming frameworks, if it
+            // also supports arduino, then we only load the arduino version of the device.
+            if ((typeof dev.typeList !== 'undefined') && (dev.deviceId.indexOf('arduino') !== -1)) {
+                dev.hide = false;
+            }
+
             // Check if this is a build-in device.
             const matchedDevice = deviceData.find(item => dev.deviceId === item.deviceId);
             if (matchedDevice) {
