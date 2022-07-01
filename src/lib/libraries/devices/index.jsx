@@ -111,7 +111,7 @@ const deviceData = [
         helpLink: 'https://store.arduino.cc/usa/arduino-uno-rev3'
     },
     {
-        name: 'Arduino Nano',
+        name: 'Arduino Nano222',
         deviceId: 'arduinoNano',
         manufactor: 'arduino.cc',
         learnMore: 'https://store.arduino.cc/usa/arduino-nano',
